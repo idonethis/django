@@ -86,10 +86,10 @@ class BasicTestCase(TestCase):
         call_command("createsuperuser",
             interactive=False,
             username="joe+admin@somewhere.org",
-            email="joe3@somewhere.org",
+            email="joe@somewhere.org",
             stdout=new_io
         )
         u = User.objects.get(username="joe+admin@somewhere.org")
-        self.assertEqual(u.email, 'joe3@somewhere.org')
+        self.assertEqual(u.email, 'joe@somewhere.org')
         self.assertFalse(u.has_usable_password())
 
