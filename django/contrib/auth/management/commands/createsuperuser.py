@@ -6,7 +6,8 @@ import getpass
 import re
 import sys
 from optparse import make_option
-from django.contrib.auth.models import User
+# from django.contrib.auth.models import User
+from accounts.models import User
 from django.core import exceptions
 from django.core.management.base import BaseCommand, CommandError
 from django.utils.translation import ugettext as _
