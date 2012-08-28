@@ -15,6 +15,14 @@ def staff_member_required(view_func):
     """
     def _checklogin(request, *args, **kwargs):
         if request.user.is_active and request.user.is_staff:
+            # do 2-factor auth
+            import settings
+            from duo_app import duo_auth
+            if not duo_auth.duo_authenticated(request):
+                from django.http import HttpResponseRedirect
+                return HttpResponseRedirect(
+                    '%s?next=%s' % (settings.DUO_LOGIN_URL, request.path))
+
             # The user is valid. Continue to the admin page.
             return view_func(request, *args, **kwargs)
 
