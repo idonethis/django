@@ -194,6 +194,11 @@ class AdminSite(object):
         def inner(request, *args, **kwargs):
             if not self.has_permission(request):
                 return self.login(request)
+            from duo_app import duo_auth
+            if not duo_auth.duo_authenticated(request):
+                from django.http import HttpResponseRedirect
+                return HttpResponseRedirect(
+                    '%s?next=%s' % (settings.DUO_LOGIN_URL, request.path))
             return view(request, *args, **kwargs)
         if not cacheable:
             inner = never_cache(inner)
