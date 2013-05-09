@@ -7,7 +7,6 @@ from django import forms
 from django.utils.translation import ugettext_lazy as _
 from django.utils.http import int_to_base36
 
-from accounts.models import AlternateEmail
 
 class UserCreationForm(forms.ModelForm):
     """
@@ -113,6 +112,7 @@ class PasswordResetForm(forms.Form):
         """
         Validates that an active user exists with the given e-mail address.
         """
+        from accounts.models import AlternateEmail
         email = self.cleaned_data["email"]
         aes = AlternateEmail.objects.filter(email__iexact=email, user__is_active=True).select_related()
         self.users_cache = User.objects.filter(
